@@ -6,22 +6,25 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Gravity
-    network: mainnet
+    network: {{network}}
     source:
-      address: '0x2E645469f354BB4F5c8a05B3b30A929361cf77eC'
-      abi: Gravity
+      address: '{{contracts.rootChain.address}}'
+      abi: Rootchain
+      startBlock: {{contracts.rootChain.startBlock}}
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - Gravatar
+        - NewHeaderBlock
       abis:
-        - name: Gravity
-          file: ./abis/Gravity.json
+        - name: StateSender
+          file: ./abis/StateSender.json
       eventHandlers:
-        - event: NewGravatar(uint256,address,string,string)
-          handler: handleNewGravatar
-        - event: UpdatedGravatar(uint256,address,string,string)
-          handler: handleUpdatedGravatar
-      file: ./src/mapping.ts
+        - event: StateSynced(indexed uint256,indexed address,bytes)
+          handler: handleStateSynced
+        - event: NewRegistration(indexed address,indexed address,indexed address)
+          handler: handleNewRegistration
+        - event: RegistrationUpdated(indexed address,indexed address,indexed address)
+          handler: handleRegistrationUpdated
+      file: ./src/mappings/state-sync.ts

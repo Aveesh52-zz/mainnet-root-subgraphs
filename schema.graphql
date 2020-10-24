@@ -1,6 +1,25 @@
-type Gravatar @entity {
+type Checkpoint @entity {
   id: ID!
-  owner: Bytes!
-  displayName: String!
-  imageUrl: String!
+  proposer: Bytes!
+  headerBlockId: BigInt!
+  checkpointNumber: BigInt!
+  reward: BigInt!
+  start: BigInt!
+  end: BigInt!
+  root: Bytes!
+}
+
+type StateSync @entity {
+  id: ID!
+  stateId: BigInt!
+  contract: Bytes!
+  data: Bytes!
+  timestamp: BigInt!
+}
+
+type StateRegistration @entity {
+  id: ID!
+  user: Bytes!
+  receiver: Bytes!
+  sender: Bytes!
 }
